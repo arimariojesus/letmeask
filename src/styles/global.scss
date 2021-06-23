@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%; /* 1rem = 10px */
+  height: 100%;
+  scroll-behavior: smooth;
+  @media (min-height: 1981px) {
+    font-size: 80%;
+  }
+}
+
+body {
+  background: #f8f8f8;
+  color: #29292e;
+}
+
+body, input, button, textarea {
+  font: 400 1.6rem 'Roboto', sans-serif;
+}
