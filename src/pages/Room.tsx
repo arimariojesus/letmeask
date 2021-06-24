@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import logoImg from '../assets/images/logo.svg';
+import { ReactComponent as LikeIcon} from '../assets/images/like.svg';
 
 import { Button } from '../components/Button';
 import { Question } from '../components/Question';
@@ -50,6 +51,16 @@ export function Room() {
     setNewQuestion('');
   }
 
+  async function handleLikQuestion(questionId: string, likeId: string | undefined) {
+    if (likeId) {
+      await database.ref(`rooms/${roomId}/questions/${questionId}/likes/${likeId}`).remove();
+    } else {
+      await database.ref(`rooms/${roomId}/questions/${questionId}/likes`).push({
+        authorId: user?.id,
+      });
+    }
+  }
+
   return (
     <div id="page-room">
       <header>
@@ -91,7 +102,17 @@ export function Room() {
               key={question.id}
               content={question.content}
               author={question.author}
-            />
+            >
+              <button
+                className={`like-button ${question.likeId ? 'liked' : ''}`}
+                type="button"
+                aria-label="Marcar como gostei"
+                onClick={() => handleLikQuestion(question?.id, question.likeId)}
+              >
+                {question.likeCount > 0 && <span>{question.likeCount}</span>}
+                <LikeIcon />
+              </button>
+            </Question>
           ))}
         </div>
       </main>
